@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:20:24 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/10 09:20:29 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/10 11:09:24 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,38 @@
 
 typedef struct s_data
 {
-	int		n_ph;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		required_meals;
-}			t_data;
+	int				n_ph;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				required_meals;
+	long long		start_time;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	meal_mutex;
+	pthread_mutex_t	sim_mutex;
+	int				sim_stop;
+	long long		*last_time_meals;
+	int				*meals_eaten;
+}					t_data;
 
 typedef struct s_philo
 {
-	int		id;
-	t_data	*data;
-}			t_philo;
+	int				id;
+	t_data			*data;
+}					t_philo;
 
 /* */
-int			parse_args(int ac, char **av, t_data *data);
+int					parse_args(int ac, char **av, t_data *data);
 
 /* Helper functions */
-int			ft_isdigit(int c);
-int			ft_atoi(const char *str);
-long		ft_atol(const char *str);
+int					ft_isdigit(int c);
+int					ft_atoi(const char *str);
+long				ft_atol(const char *str);
+
+/* */
+void    init(t_philo **philos, t_data *data);
+long long   current_time_milis(void);
+void    create_philos(pthread_t **th, t_philo **philos, t_data *data);
 
 #endif /* PHILO_H */

@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:20:44 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/10 09:20:45 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/10 10:47:36 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ static int	is_numerical(char **args)
 }
 
 /**
- * safe_atoi
+ * safe_atoi - Checks for invalid returns from atoi
+ * @str: The string to convert
+ * Return: -1 on failure, otherwise the result
  */
 static int	safe_atoi(const char *str)
 {
@@ -57,7 +59,10 @@ static int	safe_atoi(const char *str)
 }
 
 /**
- *
+ * safe_assigner - Assigns a value to a variable
+ * @key: The variable to assign to
+ * @value: The value to assign
+ * Return: 0 on success, otherwise -1
  */
 static int	safe_assigner(int *key, char *value)
 {
@@ -68,7 +73,11 @@ static int	safe_assigner(int *key, char *value)
 }
 
 /**
- *
+ * parse_args - Parses to command line arguments
+ * @ac: Argument count
+ * @av: Argument vector
+ * @data: Pointer to the t_data struct
+ * Return: 0 on success otherwise -1
  */
 int	parse_args(int ac, char **av, t_data *data)
 {

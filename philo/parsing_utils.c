@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:20:40 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/10 09:21:44 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/10 10:44:55 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_atoi(const char *str)
 }
 
 /**
- * ft_atoi - convert ASCII string to long integer
+ * ft_atol - convert ASCII string to long integer
  * @str: the string to convert
  * Return: the result long integer
  */
