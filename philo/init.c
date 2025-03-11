@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:37:13 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/10 17:05:09 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/11 17:40:38 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,16 @@ void    init(t_philo **philos, t_data *data)
 	pthread_mutex_init(&data->meal_mutex, NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
     data->start_time = current_time_milis();
+    data->sim_stop = FALSE;
 	i = -1;
 	while(++i < data->n_ph)
 		pthread_mutex_init(&data->forks[i], NULL);
 	i = -1;
 	while(++i < data->n_ph)
 		data->meals_eaten[i] = 0;	
-}
-
-/**
- * a testing routine
- */
-void    *test_func(void *philo)
-{
-    t_philo *arg = (t_philo *)philo;
-    printf("Philo id: %d\n", arg->id);
-    return (NULL);
+    i = -1;
+	while(++i < data->n_ph)
+		data->last_time_meals[i] = 0;	
 }
 
 /**
@@ -55,11 +49,22 @@ void	*philosopher(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		print_state(*philo, " is thinking\n");
-		pick_forks(*philo);
-		put_forks(*philo);
-		usleep(500);
-	}
+        pthread_mutex_lock(&philo->data->sim_mutex);
+        if (philo->data->sim_stop == TRUE)
+        {
+            pthread_mutex_unlock(&philo->data->sim_mutex);
+            break;
+        }
+        print_state(*philo, THINKING);
+        pthread_mutex_unlock(&philo->data->sim_mutex);
+        pick_forks(*philo);
+        eat(philo);
+        printf("STOP?: %d\n", philo->data->sim_stop);
+        put_forks(*philo);
+        print_state(*philo, SLEEPING);
+        better_usleep(philo->data->time_to_sleep);
+    }
+    return (NULL);
 }
 
 /**
@@ -75,17 +80,15 @@ void    create_philos(pthread_t **th, t_philo **philos, t_data *data)
     {
         (*philos)[i].id = i + 1;
         (*philos)[i].data = data;
-        //pthread_create(&((*th)[i]), NULL, test_func, &((*philos)[i]));
         pthread_create(&((*th)[i]), NULL, philosopher, &((*philos)[i]));
-		print_state((*philos)[i], "is alive\n"); // to rmv
         i++;
     }
     
 	/* TO RMV*/
-	i = 0;
-    while (i < data->n_ph)
-    {
-        pthread_join((*th)[i], NULL);
-        i++;
-    }
+	//i = 0;
+ //   while (i < data->n_ph)
+ //   {
+ //       pthread_join((*th)[i], NULL);
+ //       i++;
+ //  0}
 }
