@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:20:44 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/10 10:47:36 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/12 14:56:36 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	is_numerical(char **args)
 		{
 			if (ft_isdigit((int)args[i][j]) == FALSE)
 			{
-				printf("the digit: %c\n", args[i][j]);
 				printf("Error\n");
 				return (FALSE);
 			}
