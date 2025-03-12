@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:41:00 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/11 15:48:23 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/12 14:09:42 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ void    print_state(t_philo philo, char *msg)
 
 	current_time = current_time_milis();
 	pthread_mutex_lock(&philo.data->print_mutex);
+	pthread_mutex_lock(&philo.data->sim_mutex);
+	if (philo.data->sim_stop == TRUE)
+	{
+		pthread_mutex_unlock(&philo.data->sim_mutex);
+		pthread_mutex_unlock(&philo.data->print_mutex);
+		return ;
+	}
+	pthread_mutex_unlock(&philo.data->sim_mutex);
 	printf("%lld %d %s", current_time, philo.id, msg);
 	pthread_mutex_unlock(&philo.data->print_mutex);
 }
@@ -84,8 +92,11 @@ void	put_forks(t_philo philo)
  */
 void	eat(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->data->meal_mutex);
+	philo->data->last_time_meals[philo->id -1] = current_time_milis();
+	pthread_mutex_unlock(&philo->data->meal_mutex);
 	print_state(*philo, EATING);
-	better_usleep(philo->data->time_to_eat);
+	better_usleep(philo->data->time_to_eat, philo->data);
 	pthread_mutex_lock(&philo->data->meal_mutex);
 	philo->data->last_time_meals[philo->id -1] = current_time_milis();
 	if (philo->data->required_meals != -1)

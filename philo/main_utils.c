@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 10:23:38 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/11 12:24:41 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/12 13:59:19 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,24 @@ long long   current_time_milis(void)
  * better_usleep - A more precise sleeping function based on chunks
  * @ms: Time to sleep
  */
-void	better_usleep(long long ms)
+void	better_usleep(long long ms, t_data *data)
 {
 	long long	start;
+	long long	elapsed;
 
 	start = current_time_milis();
-	while (ms > current_time_milis() - start)
-		usleep(500);
+	while (1)
+	{
+		elapsed = current_time_milis() - start;
+	    if (elapsed >= ms)
+	    	break ;
+	    usleep(500);
+	    pthread_mutex_lock(&data->sim_mutex);
+	    if (data->sim_stop == TRUE)
+	    {
+	    	pthread_mutex_unlock(&data->sim_mutex);
+	    	break ;
+	    }
+	    pthread_mutex_unlock(&data->sim_mutex);
+	}
 }

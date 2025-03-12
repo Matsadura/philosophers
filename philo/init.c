@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:37:13 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/11 17:40:38 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/12 13:54:32 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void    init(t_philo **philos, t_data *data)
 		data->meals_eaten[i] = 0;	
     i = -1;
 	while(++i < data->n_ph)
-		data->last_time_meals[i] = 0;	
+		data->last_time_meals[i] = data->start_time;	
 }
 
 /**
@@ -55,14 +55,14 @@ void	*philosopher(void *arg)
             pthread_mutex_unlock(&philo->data->sim_mutex);
             break;
         }
-        print_state(*philo, THINKING);
         pthread_mutex_unlock(&philo->data->sim_mutex);
+        print_state(*philo, THINKING);
         pick_forks(*philo);
         eat(philo);
-        printf("STOP?: %d\n", philo->data->sim_stop);
+        //printf("STOP?: %d\n", philo->data->sim_stop);
         put_forks(*philo);
         print_state(*philo, SLEEPING);
-        better_usleep(philo->data->time_to_sleep);
+        better_usleep(philo->data->time_to_sleep, philo->data);
     }
     return (NULL);
 }
@@ -81,6 +81,7 @@ void    create_philos(pthread_t **th, t_philo **philos, t_data *data)
         (*philos)[i].id = i + 1;
         (*philos)[i].data = data;
         pthread_create(&((*th)[i]), NULL, philosopher, &((*philos)[i]));
+        usleep(100);
         i++;
     }
     

@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:39:21 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/11 17:45:10 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/12 14:24:39 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,24 @@
  */
 static int	starved(t_philo philo)
 {
-	int	meals;
-	int	last_meal;
+	long long	last_meal;
 
 	pthread_mutex_lock(&philo.data->meal_mutex);
-	meals = philo.data->meals_eaten[philo.id - 1];
-	last_meal = philo.data->last_time_meals[philo.id- 1];
+	last_meal = philo.data->last_time_meals[philo.id - 1];
 	pthread_mutex_unlock(&philo.data->meal_mutex);
-	if (meals == 0)
+	if ((current_time_milis()
+			- last_meal) > philo.data->time_to_die)
 	{
-		if ((current_time_milis()
-				- philo.data->start_time) > philo.data->time_to_die)
-		{
-			print_state(philo, DIED);
-			return (TRUE);
-		}
-	}
-	else if (meals != 0)
-	{
-		if ((current_time_milis() - last_meal) > philo.data->time_to_die)
-		{
-			print_state(philo, DIED);
-			return (TRUE);
-		}
+		
+	    pthread_mutex_lock(&philo.data->sim_mutex);
+	    if (philo.data->sim_stop == TRUE)
+	    {
+	    	pthread_mutex_unlock(&philo.data->sim_mutex);
+	    	return (FALSE) ;
+	    }
+	    pthread_mutex_unlock(&philo.data->sim_mutex);
+		print_state(philo, DIED);
+		return (TRUE);
 	}
 	return (FALSE);
 }
@@ -62,8 +57,10 @@ void	*monitor(void *arg)
 
 	philo = (t_philo *)arg;
 	i = 0;
+	usleep(1000);
 	while (1)
 	{
+		usleep(1000);
 		i = 0;
 		while (i < philo[0].data->n_ph)
 		{
@@ -75,8 +72,9 @@ void	*monitor(void *arg)
 				return (NULL);
 			}
 			i++;
+			usleep(1000);
 		}
-		better_usleep(1);
+		better_usleep(1, philo[0].data);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:20:24 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/11 14:35:52 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/11 17:59:04 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ long long   current_time_milis(void);
 void    create_philos(pthread_t **th, t_philo **philos, t_data *data);
 void    handle_monitoring(pthread_t *th, t_philo **philos);
 void    print_state(t_philo philo, char *msg);
-void	better_usleep(long long ms);
+void	better_usleep(long long ms, t_data *data);
 
 /* Philosopher actions */
 
