@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:39:21 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/13 11:45:03 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/13 12:35:06 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,15 @@ static int	starved(t_philo philo)
 	pthread_mutex_lock(&philo.data->meal_mutex);
 	last_meal = philo.data->last_time_meals[philo.id - 1];
 	pthread_mutex_unlock(&philo.data->meal_mutex);
-	if ((current_time_milis()
-			- last_meal) >= philo.data->time_to_die)
+	if ((current_time_milis() - last_meal) >= philo.data->time_to_die)
 	{
-		
-	    pthread_mutex_lock(&philo.data->sim_mutex);
-	    if (philo.data->sim_stop == TRUE)
-	    {
-	    	pthread_mutex_unlock(&philo.data->sim_mutex);
-	    	return (FALSE) ;
-	    }
-	    pthread_mutex_unlock(&philo.data->sim_mutex);
+		pthread_mutex_lock(&philo.data->sim_mutex);
+		if (philo.data->sim_stop == TRUE)
+		{
+			pthread_mutex_unlock(&philo.data->sim_mutex);
+			return (FALSE);
+		}
+		pthread_mutex_unlock(&philo.data->sim_mutex);
 		print_state(philo, DIED);
 		return (TRUE);
 	}
@@ -69,10 +67,10 @@ static int	is_full(t_data *data)
 	while (i < data->n_ph)
 	{
 		if (data->meals_eaten[i] < data->required_meals)
-		 {
+		{
 			full = FALSE;
 			break ;
-		 }
+		}
 		i++;
 	}
 	pthread_mutex_unlock(&data->meal_mutex);
@@ -87,7 +85,7 @@ static int	is_full(t_data *data)
 void	*monitor(void *arg)
 {
 	t_philo	*philo;
-	int	i;
+	int		i;
 
 	philo = (t_philo *)arg;
 	i = 0;
@@ -114,7 +112,7 @@ void	*monitor(void *arg)
  * @th: The thread
  * @philos: An array of t_philo structs
  */
-void    handle_monitoring(pthread_t *th, t_philo **philos)
+void	handle_monitoring(pthread_t *th, t_philo **philos)
 {
 	pthread_create(th, NULL, monitor, *philos);
 }

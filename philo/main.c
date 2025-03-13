@@ -46,7 +46,7 @@ static int	init(t_philo **philos, t_data *data)
 	return (TRUE);
 }
 
-static void cleanup(pthread_t *th, t_philo *philos, t_data data)
+static void	cleanup(pthread_t *th, t_philo *philos, t_data data)
 {
 	int	i;
 
@@ -54,7 +54,7 @@ static void cleanup(pthread_t *th, t_philo *philos, t_data data)
 	pthread_mutex_destroy(&data.sim_mutex);
 	pthread_mutex_destroy(&data.print_mutex);
 	i = -1;
-	while(++i < data.n_ph)
+	while (++i < data.n_ph)
 		pthread_mutex_destroy(&data.forks[i]);
 	free(philos);
 	free(data.forks);
@@ -71,11 +71,11 @@ static void cleanup(pthread_t *th, t_philo *philos, t_data data)
  */
 int	main(int ac, char **av)
 {
-	t_data	data;
-	t_philo *philos;
-	pthread_t *th;
-	pthread_t th_monitor;
-	int	i;
+	t_data		data;
+	t_philo		*philos;
+	pthread_t	*th;
+	pthread_t	th_monitor;
+	int			i;
 
 	if (ac == 5 || ac == 6)
 	{
@@ -86,7 +86,7 @@ int	main(int ac, char **av)
 		handle_monitoring(&th_monitor, &philos);
 		pthread_join(th_monitor, NULL);
 		i = -1;
-		while(++i < data.n_ph)
+		while (++i < data.n_ph)
 			pthread_join(th[i], NULL);
 		cleanup(th, philos, data);
 	}

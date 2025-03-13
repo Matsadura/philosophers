@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:41:00 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/13 11:43:08 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/13 12:32:30 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
  * @philo: The concerned philosopher
  * @msg: The message to print
  */
-void    print_state(t_philo philo, char *msg)
+void	print_state(t_philo philo, char *msg)
 {
-	long long   current_time;
+	long long	current_time;
 
 	current_time = current_time_milis();
 	pthread_mutex_lock(&philo.data->print_mutex);
@@ -35,12 +35,11 @@ void    print_state(t_philo philo, char *msg)
 	pthread_mutex_unlock(&philo.data->print_mutex);
 }
 
-
 /**
  * pick_forks - Picks two forks
  * @philo: The philosopher to pick the forks
  */
-void    pick_forks(t_philo philo)
+void	pick_forks(t_philo philo)
 {
 	int	left;
 	int	right;
@@ -53,7 +52,7 @@ void    pick_forks(t_philo philo)
 		print_state(philo, FORK_UP);
 		pthread_mutex_lock(&philo.data->forks[right]);
 		print_state(philo, FORK_UP);
-	}	
+	}
 	else if (philo.id % 2 != 0)
 	{
 		pthread_mutex_lock(&philo.data->forks[right]);
@@ -78,7 +77,7 @@ void	put_forks(t_philo philo)
 	{
 		pthread_mutex_unlock(&philo.data->forks[left]);
 		pthread_mutex_unlock(&philo.data->forks[right]);
-	}	
+	}
 	else if (philo.id % 2 != 0)
 	{
 		pthread_mutex_unlock(&philo.data->forks[right]);
@@ -95,8 +94,8 @@ void	eat(t_philo *philo)
 	print_state(*philo, EATING);
 	better_usleep(philo->data->time_to_eat, philo->data);
 	pthread_mutex_lock(&philo->data->meal_mutex);
-	philo->data->last_time_meals[philo->id -1] = current_time_milis();
+	philo->data->last_time_meals[philo->id - 1] = current_time_milis();
 	if (philo->data->required_meals != -1)
-		philo->data->meals_eaten[philo->id - 1]++;	
+		philo->data->meals_eaten[philo->id - 1]++;
 	pthread_mutex_unlock(&philo->data->meal_mutex);
 }

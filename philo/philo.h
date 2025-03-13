@@ -65,16 +65,17 @@ long				ft_atol(const char *str);
 
 /* */
 
-long long   current_time_milis(void);
-void    create_philos(pthread_t **th, t_philo **philos, t_data *data);
-void    handle_monitoring(pthread_t *th, t_philo **philos);
-void    print_state(t_philo philo, char *msg);
-void	better_usleep(long long ms, t_data *data);
+long long			current_time_milis(void);
+void				create_philos(pthread_t **th, t_philo **philos,
+						t_data *data);
+void				handle_monitoring(pthread_t *th, t_philo **philos);
+void				print_state(t_philo philo, char *msg);
+void				better_usleep(long long ms, t_data *data);
 
 /* Philosopher actions */
 
-void    pick_forks(t_philo philo);
-void	eat(t_philo *philo);
-void	put_forks(t_philo philo);
+void				pick_forks(t_philo philo);
+void				eat(t_philo *philo);
+void				put_forks(t_philo philo);
 
 #endif /* PHILO_H */
