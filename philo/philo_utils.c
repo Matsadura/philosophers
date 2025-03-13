@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:41:00 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/12 14:09:42 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/13 11:43:08 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,6 @@ void	put_forks(t_philo philo)
  */
 void	eat(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->meal_mutex);
-	philo->data->last_time_meals[philo->id -1] = current_time_milis();
-	pthread_mutex_unlock(&philo->data->meal_mutex);
 	print_state(*philo, EATING);
 	better_usleep(philo->data->time_to_eat, philo->data);
 	pthread_mutex_lock(&philo->data->meal_mutex);

@@ -6,11 +6,45 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:22:37 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/11 19:53:22 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/03/13 10:30:19 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/**
+ * init - Initializes all values
+ * @philo: Pointer to an array of t_philo structs
+ * @data: Pointer to shared data struct
+ * Return: True if no malloc fails, False otherwise
+ */
+static int	init(t_philo **philos, t_data *data)
+{
+	int	i;
+
+	*philos = malloc(data->n_ph * sizeof(t_philo));
+	data->forks = malloc(data->n_ph * sizeof(pthread_mutex_t));
+	data->last_time_meals = malloc(data->n_ph * sizeof(long long));
+	data->meals_eaten = malloc(data->n_ph * sizeof(int));
+	if (data->forks == NULL || data->last_time_meals == NULL
+		|| data->meals_eaten == NULL)
+		return (FALSE);
+	pthread_mutex_init(&data->sim_mutex, NULL);
+	pthread_mutex_init(&data->meal_mutex, NULL);
+	pthread_mutex_init(&data->print_mutex, NULL);
+	data->start_time = current_time_milis();
+	data->sim_stop = FALSE;
+	i = -1;
+	while (++i < data->n_ph)
+		pthread_mutex_init(&data->forks[i], NULL);
+	i = -1;
+	while (++i < data->n_ph)
+		data->meals_eaten[i] = 0;
+	i = -1;
+	while (++i < data->n_ph)
+		data->last_time_meals[i] = data->start_time;
+	return (TRUE);
+}
 
 static void cleanup(pthread_t *th, t_philo *philos, t_data data)
 {
@@ -51,9 +85,6 @@ int	main(int ac, char **av)
 		create_philos(&th, &philos, &data);
 		handle_monitoring(&th_monitor, &philos);
 		pthread_join(th_monitor, NULL);
-		//pthread_mutex_lock(&data.sim_mutex);
-		//data.sim_stop = TRUE;
-		//pthread_mutex_unlock(&data.sim_mutex);
 		i = -1;
 		while(++i < data.n_ph)
 			pthread_join(th[i], NULL);
