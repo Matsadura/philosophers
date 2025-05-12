@@ -2,4 +2,5 @@ philo
 .vscode
 a.out
 *.swp
+*.o
 test.c

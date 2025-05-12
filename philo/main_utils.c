@@ -18,10 +18,18 @@
  */
 long long	current_time_milis(void)
 {
-	struct timeval	tv;
+	static struct timeval	start;
+	static struct timeval	current;
+	static int				flag;
 
-	gettimeofday(&tv, NULL);
-	return ((long long)(tv.tv_sec) *1000 + (tv.tv_usec / 1000));
+	if (flag == 0)
+	{
+		gettimeofday(&start, NULL);
+		flag = 1;
+	}
+	gettimeofday(&current, NULL);
+	return ((long long)(current.tv_sec - start.tv_sec) *1000
+	+ (current.tv_usec - start.tv_usec) / 1000);
 }
 
 /**
