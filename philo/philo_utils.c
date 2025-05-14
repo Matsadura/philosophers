@@ -46,6 +46,8 @@ void	pick_forks(t_philo philo)
 
 	left = philo.id - 1;
 	right = (philo.id + 1) % philo.data->n_ph;
+	if (philo.id % 2 != 0)
+		usleep(philo.data->time_to_eat / 2);
 	if (philo.id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo.data->forks[left]);
@@ -91,11 +93,11 @@ void	put_forks(t_philo philo)
  */
 void	eat(t_philo *philo)
 {
-	print_state(*philo, EATING);
-	better_usleep(philo->data->time_to_eat, philo->data);
 	pthread_mutex_lock(&philo->data->meal_mutex);
 	philo->data->last_time_meals[philo->id - 1] = current_time_milis();
 	if (philo->data->required_meals != -1)
 		philo->data->meals_eaten[philo->id - 1]++;
 	pthread_mutex_unlock(&philo->data->meal_mutex);
+	print_state(*philo, EATING);
+	better_usleep(philo->data->time_to_eat, philo->data);
 }

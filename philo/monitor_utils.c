@@ -35,7 +35,7 @@ static int	starved(t_philo philo)
 	pthread_mutex_lock(&philo.data->meal_mutex);
 	last_meal = philo.data->last_time_meals[philo.id - 1];
 	pthread_mutex_unlock(&philo.data->meal_mutex);
-	if ((current_time_milis() - last_meal) >= philo.data->time_to_die)
+	if ((current_time_milis() - last_meal) > philo.data->time_to_die)
 	{
 		pthread_mutex_lock(&philo.data->sim_mutex);
 		if (philo.data->sim_stop == TRUE)
@@ -91,18 +91,20 @@ void	*monitor(void *arg)
 	i = 0;
 	while (1)
 	{
-		usleep(1000);
+		//usleep(100);
+		//usleep(1000);
 		i = 0;
 		if (is_full(philo[0].data) == TRUE)
 			return (sim_stop(philo[0].data), NULL);
 		while (i < philo[0].data->n_ph)
 		{
+			better_usleep(5, philo[0].data);
 			if (starved(philo[i]) == TRUE)
 				return (sim_stop(philo[0].data), NULL);
 			i++;
-			usleep(1000);
+			//usleep(1000);
+			//usleep(100);
 		}
-		better_usleep(1, philo[0].data);
 	}
 	return (NULL);
 }
