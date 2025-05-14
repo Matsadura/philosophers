@@ -60,7 +60,6 @@ void	create_philos(pthread_t **th, t_philo **philos, t_data *data)
 		(*philos)[i].id = i + 1;
 		(*philos)[i].data = data;
 		pthread_create(&((*th)[i]), NULL, philosopher, &((*philos)[i]));
-		//usleep(100);
 		i++;
 	}
 }
