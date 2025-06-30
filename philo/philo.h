@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:20:24 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/13 12:37:21 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/05/15 00:23:43 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void				better_usleep(long long ms, t_data *data);
 
 /* Philosopher actions */
 
-void				pick_forks(t_philo philo);
+int					pick_forks(t_philo philo);
 void				eat(t_philo *philo);
 void				put_forks(t_philo philo);
 

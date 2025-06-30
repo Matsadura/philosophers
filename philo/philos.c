@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:37:13 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/13 10:34:07 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/05/15 00:23:47 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	*philosopher(void *arg)
 		}
 		pthread_mutex_unlock(&philo->data->sim_mutex);
 		print_state(*philo, THINKING);
-		pick_forks(*philo);
+		if (pick_forks(*philo) == FALSE)
+			break ;
 		eat(philo);
 		put_forks(*philo);
 		print_state(*philo, SLEEPING);

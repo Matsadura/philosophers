@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra #-ggdb -fsanitize=thread
 SRC = main.c main_utils.c monitor_utils.c parsing.c parsing_utils.c philos.c philo_utils.c
 NAME = philo
 OBJECT = $(SRC:.c=.o)

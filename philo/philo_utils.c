@@ -6,7 +6,7 @@
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:41:00 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/03/13 12:32:30 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/05/15 00:23:53 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	print_state(t_philo philo, char *msg)
  * pick_forks - Picks two forks
  * @philo: The philosopher to pick the forks
  */
-void	pick_forks(t_philo philo)
+int	pick_forks(t_philo philo)
 {
 	int	left;
 	int	right;
@@ -59,9 +59,16 @@ void	pick_forks(t_philo philo)
 	{
 		pthread_mutex_lock(&philo.data->forks[right]);
 		print_state(philo, FORK_UP);
+		if (philo.data->n_ph == 1)
+		{
+			usleep(philo.data->time_to_die);
+			pthread_mutex_unlock(&philo.data->forks[right]);
+			return (FALSE);
+		}
 		pthread_mutex_lock(&philo.data->forks[left]);
 		print_state(philo, FORK_UP);
 	}
+	return (TRUE);
 }
 
 /**
