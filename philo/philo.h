@@ -60,6 +60,8 @@ int					ft_atoi(const char *str);
 long				ft_atol(const char *str);
 long long			current_time_milis(void);
 int					parse_args(int ac, char **av, t_data *data);
+int					init(t_philo **philos, t_data *data);
+void				cleanup(pthread_t *th, t_philo *philos, t_data data);
 
 /* Thread related functions */
 

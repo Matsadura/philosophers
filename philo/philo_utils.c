@@ -21,7 +21,7 @@ void	print_state(t_philo philo, char *msg)
 {
 	long long	current_time;
 
-	current_time = current_time_milis();
+	current_time = current_time_milis() - philo.data->start_time;
 	pthread_mutex_lock(&philo.data->print_mutex);
 	pthread_mutex_lock(&philo.data->sim_mutex);
 	if (philo.data->sim_stop == TRUE)
