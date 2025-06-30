@@ -36,42 +36,6 @@ void	print_state(t_philo philo, char *msg)
 }
 
 /**
- * pick_forks - Picks two forks
- * @philo: The philosopher to pick the forks
- */
-int	pick_forks(t_philo philo)
-{
-	int	left;
-	int	right;
-
-	left = philo.id - 1;
-	right = (philo.id + 1) % philo.data->n_ph;
-	if (philo.id % 2 != 0)
-		usleep(philo.data->time_to_eat / 2);
-	if (philo.id % 2 == 0)
-	{
-		pthread_mutex_lock(&philo.data->forks[left]);
-		print_state(philo, FORK_UP);
-		pthread_mutex_lock(&philo.data->forks[right]);
-		print_state(philo, FORK_UP);
-	}
-	else if (philo.id % 2 != 0)
-	{
-		pthread_mutex_lock(&philo.data->forks[right]);
-		print_state(philo, FORK_UP);
-		if (philo.data->n_ph == 1)
-		{
-			usleep(philo.data->time_to_die);
-			pthread_mutex_unlock(&philo.data->forks[right]);
-			return (FALSE);
-		}
-		pthread_mutex_lock(&philo.data->forks[left]);
-		print_state(philo, FORK_UP);
-	}
-	return (TRUE);
-}
-
-/**
  * put_forks - Puts back the previously picked forks
  * @philo: The philosopher to put down the forks
  */
