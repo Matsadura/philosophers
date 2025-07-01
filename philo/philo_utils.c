@@ -43,19 +43,25 @@ void	put_forks(t_philo philo)
 {
 	int	left;
 	int	right;
+	int	first;
+	int	second;
 
+	if (philo.data->n_ph == 1)
+		return ;
 	left = philo.id - 1;
-	right = (philo.id + 1) % philo.data->n_ph;
-	if (philo.id % 2 == 0)
+	right = philo.id % philo.data->n_ph;
+	if (left < right)
 	{
-		pthread_mutex_unlock(&philo.data->forks[left]);
-		pthread_mutex_unlock(&philo.data->forks[right]);
+		first = left;
+		second = right;
 	}
-	else if (philo.id % 2 != 0)
+	else
 	{
-		pthread_mutex_unlock(&philo.data->forks[right]);
-		pthread_mutex_unlock(&philo.data->forks[left]);
+		first = right;
+		second = left;
 	}
+	pthread_mutex_unlock(&philo.data->forks[first]);
+	pthread_mutex_unlock(&philo.data->forks[second]);
 }
 
 /**

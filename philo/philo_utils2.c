@@ -53,7 +53,7 @@ int	pick_forks(t_philo philo)
 	int	second;
 
 	left = philo.id - 1;
-	right = (philo.id + 1) % philo.data->n_ph;
+	right = philo.id % philo.data->n_ph;
 	if (philo.data->n_ph == 1)
 		return (handle_one_philo(philo, right));
 	get_fork_order(&first, &second, left, right);
